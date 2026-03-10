@@ -8,11 +8,13 @@ Uma aplicação completa para praticar inglês com foco em gramática e pronúnc
 - **Interface bilíngue** EN/PT com alternância instantânea
 - **12 tempos verbais** completos
 - **11 técnicas de pronúncia** especializadas
-- **7,695 exercícios** no total (855 por tema)
+- **11.112 frases** no total
+- **95.329 palavras** e **8.280 palavras únicas** (contagem normalizada)
 
 ## 🎨 Temas Disponíveis
 
-Cada tema contém **855 exercícios completos** (360 gramática + 495 pronúncia):
+Os temas cobrem contextos reais de socialização e prática oral.  
+Observação: o volume de conteúdo pode variar por tema conforme a curadoria atual dos dados.
 
 1. 🏠 **Dia a Dia** - rotina matinal, refeições, tarefas domésticas, família, compras
 2. ✈️ **Viagens** - aeroporto, hotel, transporte, turismo, restaurantes
@@ -26,7 +28,7 @@ Cada tema contém **855 exercícios completos** (360 gramática + 495 pronúncia
 
 ## 📋 Recursos
 
-### Grammar Tenses (360 frases por tema)
+### Grammar Tenses
 
 **12 Tempos Verbais** completos com 3 níveis de dificuldade:
 
@@ -43,10 +45,10 @@ Cada tema contém **855 exercícios completos** (360 gramática + 495 pronúncia
 11. Future Perfect
 12. Future Perfect Continuous
 
-- **30 frases por tempo**: 10 Easy, 10 Medium, 10 Hard
-- **Total por tema**: 360 frases (12 tempos × 30)
+- Estrutura base: **Easy / Medium / Hard**
+- Conteúdo voltado para repetição oral e construção de fluência
 
-### Pronunciation Practice (495 exercícios por tema)
+### Pronunciation Practice
 
 **11 Técnicas de Pronúncia** com 3 níveis de dificuldade:
 
@@ -62,8 +64,8 @@ Cada tema contém **855 exercícios completos** (360 gramática + 495 pronúncia
 10. **Thought Groups** - Grupos de pensamento com pausas (/)
 11. **Reading Practice** - Prática de leitura com marcação de pausas
 
-- **45 exercícios por técnica**: 15 Easy, 15 Medium, 15 Hard
-- **Total por tema**: 495 exercícios (11 técnicas × 45)
+- Estrutura base: **Easy / Medium / Hard**
+- Foco em prática massiva de fala, ritmo e clareza
 
 ### Interface Bilíngue 🇺🇸🇧🇷
 
@@ -156,8 +158,10 @@ english_training/
 ├── index.html              # Página principal
 ├── app.js                  # Lógica da aplicação + traduções
 ├── styles.css              # Estilos e animações
-├── data.js                 # Dados compilados (~10k linhas, gerado automaticamente)
+├── data.js                 # Dados compilados (~13.6k linhas, gerado automaticamente)
 ├── data.js.backup          # Backup do data.js anterior
+├── count-stats.js          # Estatísticas gerais de frases/palavras
+├── top-words.js            # Top palavras mais frequentes
 ├── README.md               # Este arquivo
 ├── CHANGELOG.md            # Histórico de mudanças
 │
@@ -192,7 +196,7 @@ python3 scripts/build_data.py
 2. Extrai os objetos de dados com regex
 3. Combina em uma única estrutura `themesData`
 4. Adiciona explicações de tempos e técnicas (EN/PT)
-5. Gera `data.js` com ~10.000 linhas
+5. Gera `data.js` com ~13.600 linhas
 
 ### Adicionar Novo Tema
 
@@ -249,8 +253,8 @@ novo_obj = novo_match.group(1)
 **4. Atualizar `index.html`:**
 
 ```html
-<!-- Atualizar subtítulo -->
-<p class="subtitle">10 themes • 12 tenses • 11 pronunciation techniques • 8,550 exercises</p>
+<!-- Subtítulo fixo motivacional -->
+<p class="subtitle">Talk now, fix grammar later. Repetition is your superpower.</p>
 ```
 
 **5. Recompilar:**
@@ -276,10 +280,10 @@ python3 scripts/build_data.py
 ## 📊 Estatísticas
 
 - **Linhas de código**:
-  - app.js: ~450 linhas
-  - styles.css: ~280 linhas
-  - data.js: ~9,900 linhas (gerado)
-  - Cada theme: ~1,075 linhas
+    - app.js: ~608 linhas
+    - styles.css: ~455 linhas
+    - data.js: ~13.611 linhas (gerado)
+    - themes: variam por arquivo (~1.075 a ~2.675 linhas)
 - **Tamanho total**: ~1.5 MB
 - **Tempo de carregamento**: < 1 segundo
 
