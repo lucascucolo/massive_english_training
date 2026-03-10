@@ -1,0 +1,58 @@
+
+========== ENGLISH TRAINING STATISTICS ==========
+
+OVERALL STATISTICS:
+  Total Sentences: 11112
+  Total Words: 106761
+  Average Words per Sentence: 9.61
+
+
+THEME BREAKDOWN:
+
+Dia a Dia:
+  Sentences: 1195
+  Words: 13344
+  Average: 11.17 words/sentence
+
+Viagens:
+  Sentences: 2448
+  Words: 26117
+  Average: 10.67 words/sentence
+
+Tecnologia:
+  Sentences: 915
+  Words: 9510
+  Average: 10.39 words/sentence
+
+Trabalho e Carreira:
+  Sentences: 1433
+  Words: 11874
+  Average: 8.29 words/sentence
+
+Artes e Entretenimento:
+  Sentences: 1706
+  Words: 12726
+  Average: 7.46 words/sentence
+
+Educação e Ciência:
+  Sentences: 855
+  Words: 8404
+  Average: 9.83 words/sentence
+
+Esportes:
+  Sentences: 850
+  Words: 8239
+  Average: 9.69 words/sentence
+
+Meio Ambiente e Natureza:
+  Sentences: 855
+  Words: 8010
+  Average: 9.37 words/sentence
+
+Sociedade e Comportamento:
+  Sentences: 855
+  Words: 8537
+  Average: 9.98 words/sentence
+
+=================================================
+
