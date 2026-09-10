@@ -13605,7 +13605,3 @@ const techniqueExplanationsPT = {
         description: "Leia parágrafos e textos completos em voz alta para construir fluência e confiança. Comece com textos curtos e progrida para mais longos. Foque em entrega suave, ritmo natural e pronúncia clara. Esta técnica integra todas as habilidades de pronúncia."
     }
 };
-
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = { themesData };
-}

@@ -302,15 +302,20 @@ const translations = {
 };
 
 // DOM elements
-const themeSelect = document.getElementById('theme-select');
-const studyTypeSelect = document.getElementById('study-type');
-const tenseSelect = document.getElementById('tense-select');
-const topicLabel = document.getElementById('topic-label');
-const levelSelect = document.getElementById('level-select');
-const selectionScreen = document.getElementById('selection-screen');
+const themesScreen = document.getElementById('themes-screen');
+const subthemesScreen = document.getElementById('subthemes-screen');
 const practiceScreen = document.getElementById('practice-screen');
-const startSessionBtn = document.getElementById('start-session-btn');
-const backToMenuBtn = document.getElementById('back-to-menu-btn');
+
+const themesGrid = document.getElementById('themes-grid');
+const currentThemeTitle = document.getElementById('current-theme-title');
+const grammarGrid = document.getElementById('grammar-grid');
+const pronunciationGrid = document.getElementById('pronunciation-grid');
+
+const practiceLevelSelect = document.getElementById('practice-level-select');
+
+const backToThemesBtn = document.getElementById('back-to-themes-btn');
+const backToMenuBtn = document.getElementById('back-to-menu-btn'); // Renamed text to "Back to Subthemes"
+
 const cardMode = document.getElementById('card-mode');
 const currentSentence = document.getElementById('current-sentence');
 const currentLevel = document.getElementById('current-level');
@@ -338,30 +343,32 @@ const statUniqueWordsLabel = document.getElementById('stat-unique-words-label');
 
 // Initialize app
 function init() {
-    themeSelect.value = state.currentTheme;
-    studyTypeSelect.value = state.studyType;
-    levelSelect.value = state.currentLevel;
-    populateThemeSelect(false);
-    populateTopicSelect(false);
-    loadSentences();
-    updateDisplay();
-    if (state.studyType === 'pronunciation') {
-        updateTechniqueExplanation();
-    } else {
-        updateTenseExplanation();
-    }
-    showSelectionScreen();
+    practiceLevelSelect.value = state.currentLevel;
+    renderThemesGrid();
+    showThemesScreen();
     attachEventListeners();
 }
 
-function showSelectionScreen() {
-    selectionScreen.style.display = 'block';
+function showThemesScreen() {
+    themesScreen.style.display = 'block';
+    subthemesScreen.style.display = 'none';
     practiceScreen.style.display = 'none';
+    renderThemesGrid(); // re-render to update text if language changed
+}
+
+function showSubthemesScreen() {
+    themesScreen.style.display = 'none';
+    subthemesScreen.style.display = 'block';
+    practiceScreen.style.display = 'none';
+    renderSubthemesGrid();
+    updateThemeTitle();
 }
 
 function showPracticeScreen() {
-    selectionScreen.style.display = 'none';
+    themesScreen.style.display = 'none';
+    subthemesScreen.style.display = 'none';
     practiceScreen.style.display = 'block';
+    startPracticeSession();
 }
 
 function startPracticeSession() {
@@ -373,11 +380,6 @@ function startPracticeSession() {
         updateTenseExplanation();
     }
     updateSelectionSummary();
-    showPracticeScreen();
-}
-
-function backToMenu() {
-    showSelectionScreen();
 }
 
 // Toggle language
@@ -402,26 +404,26 @@ function updateUILanguage() {
     const t = translations[state.language];
     
     // Update labels
-    document.getElementById('label-theme').textContent = t['label-theme'];
-    document.getElementById('label-study-type').textContent = t['label-study-type'];
-    document.getElementById('label-level').textContent = t['label-level'];
-    document.getElementById('label-total-sentences').textContent = t['label-total-sentences'];
+    if (document.getElementById('label-level')) document.getElementById('label-level').textContent = t['label-level'];
+    if (document.getElementById('label-total-sentences')) document.getElementById('label-total-sentences').textContent = t['label-total-sentences'];
     
     // Update topic label based on study type
     if (state.studyType === 'tenses') {
-        topicLabel.textContent = t['label-select-tense'];
-        currentTopicLabel.textContent = t['label-current-tense'];
+        if (currentTopicLabel) currentTopicLabel.textContent = t['label-current-tense'];
     } else {
-        topicLabel.textContent = t['label-select-technique'];
-        currentTopicLabel.textContent = t['label-current-technique'];
+        if (currentTopicLabel) currentTopicLabel.textContent = t['label-current-technique'];
     }
     
     // Update buttons
-    document.getElementById('btn-prev-text').textContent = t['btn-prev'];
-    document.getElementById('btn-next-text').textContent = t['btn-next'];
-    document.getElementById('btn-random-text').textContent = t['btn-random'];
-    document.getElementById('btn-start-text').textContent = t['btn-start'];
-    document.getElementById('btn-back-text').textContent = t['btn-back'];
+    if (document.getElementById('btn-prev-text')) document.getElementById('btn-prev-text').textContent = t['btn-prev'];
+    if (document.getElementById('btn-next-text')) document.getElementById('btn-next-text').textContent = t['btn-next'];
+    if (document.getElementById('btn-random-text')) document.getElementById('btn-random-text').textContent = t['btn-random'];
+    if (document.getElementById('btn-back-themes-text')) {
+        document.getElementById('btn-back-themes-text').textContent = state.language === 'en' ? '← Back to Themes' : '← Voltar aos Temas';
+    }
+    if (document.getElementById('btn-back-text')) {
+        document.getElementById('btn-back-text').textContent = state.language === 'en' ? '← Back to Subthemes' : '← Voltar aos Subtemas';
+    }
     
     // Update subtitle (fixed text)
     subtitle.textContent = t['subtitle-fixed'];
@@ -460,25 +462,19 @@ function updateUILanguage() {
         }
     });
     
-    // Update study type options
-    const studyTypeOptions = studyTypeSelect.querySelectorAll('option');
-    studyTypeOptions.forEach(option => {
-        const key = option.getAttribute('data-text-key');
-        if (key) option.textContent = t[key];
-    });
-    
     // Update level options
-    const levelOptions = levelSelect.querySelectorAll('option');
+    const levelOptions = practiceLevelSelect.querySelectorAll('option');
     levelOptions.forEach(option => {
         const key = option.getAttribute('data-text-key');
         if (key) option.textContent = t[key];
     });
-    
-    // Update theme options
-    populateThemeSelect(true);
-    
-    // Update topic options (tenses or techniques)
-    populateTopicSelect(true);
+
+    if (themesScreen.style.display === 'block') {
+        renderThemesGrid();
+    } else if (subthemesScreen.style.display === 'block') {
+        renderSubthemesGrid();
+        updateThemeTitle();
+    }
 
     // Keep practice summary in sync when language changes
     updateSelectionSummary();
@@ -501,59 +497,81 @@ function updateSelectionSummary() {
     selectionSummary.textContent = `${t['summary-theme']}: ${translatedTheme} | ${t['summary-study-type']}: ${translatedStudyType} | ${t['summary-topic']}: ${translatedTopic} | ${t['summary-level']}: ${translatedLevel}`;
 }
 
-// Populate theme select
-function populateThemeSelect(preserveSelection = true) {
+// Render Themes Grid
+function renderThemesGrid() {
     const t = translations[state.language];
-    const currentValue = themeSelect.value; // Save current selection
-    themeSelect.innerHTML = '';
+    themesGrid.innerHTML = '';
+
+    document.getElementById('themes-header').textContent = state.language === 'en' ? 'Choose a Theme' : 'Escolha um Tema';
+
     Object.keys(themesData).forEach(themeKey => {
-        const option = document.createElement('option');
-        option.value = themeKey;
-        option.textContent = t[themeKey] || themesData[themeKey].displayName;
-        themeSelect.appendChild(option);
+        const data = themesData[themeKey];
+        const tensesCount = data.tensesData ? data.tensesData.length : 0;
+        const pronCount = data.pronunciationData ? data.pronunciationData.length : 0;
+
+        const card = document.createElement('div');
+        card.className = 'theme-card';
+        card.innerHTML = `
+            <h3>${t[themeKey] || data.displayName}</h3>
+            <span class="theme-stats">${tensesCount} Tenses • ${pronCount} Techs</span>
+        `;
+        card.addEventListener('click', () => {
+            state.currentTheme = themeKey;
+            updateThemeTitle();
+            showSubthemesScreen();
+        });
+        themesGrid.appendChild(card);
     });
-    if (preserveSelection && currentValue && themesData[currentValue]) {
-        themeSelect.value = currentValue; // Restore selection
-    } else {
-        themeSelect.value = state.currentTheme;
-    }
 }
 
-// Populate topic select based on study type
-function populateTopicSelect(preserveSelection = true) {
+function updateThemeTitle() {
     const t = translations[state.language];
-    const currentValue = tenseSelect.value; // Save current selection
-    tenseSelect.innerHTML = '';
     const currentThemeData = themesData[state.currentTheme];
-    const data = state.studyType === 'tenses' ? currentThemeData.tensesData : currentThemeData.pronunciationData;
+    currentThemeTitle.textContent = t[state.currentTheme] || currentThemeData.displayName;
     
-    data.forEach((item, index) => {
-        const option = document.createElement('option');
-        option.value = index;
+    document.getElementById('grammar-header').textContent = t['grammar-tenses'] || 'Grammar Tenses';
+    document.getElementById('pronunciation-header').textContent = t['pronunciation'] || 'Pronunciation';
+}
+
+// Render Subthemes Grid
+function renderSubthemesGrid() {
+    const t = translations[state.language];
+    const currentThemeData = themesData[state.currentTheme];
+
+    grammarGrid.innerHTML = '';
+    pronunciationGrid.innerHTML = '';
+
+    // Grammar
+    currentThemeData.tensesData.forEach((item, index) => {
+        const card = document.createElement('div');
+        card.className = 'subtheme-card';
         const translatedName = t[item.name] || item.name;
-        option.textContent = state.studyType === 'tenses' ? `${index + 1}. ${translatedName}` : translatedName;
-        tenseSelect.appendChild(option);
+        card.innerHTML = `<h4>${index + 1}. ${translatedName}</h4>`;
+        card.addEventListener('click', () => {
+            state.studyType = 'tenses';
+            state.currentTenseIndex = index;
+            state.currentSentenceIndex = 0;
+            startPracticeSession(); // Loads sentences and updates display
+            showPracticeScreen();
+        });
+        grammarGrid.appendChild(card);
     });
-    if (preserveSelection && currentValue && parseInt(currentValue) < data.length) {
-        tenseSelect.value = currentValue; // Restore selection
-        state.currentTenseIndex = parseInt(currentValue);
-    } else {
-        tenseSelect.value = String(state.currentTenseIndex);
-    }
     
-    // Update labels with translation
-    const t2 = translations[state.language];
-    if (state.studyType === 'tenses') {
-        topicLabel.textContent = t2['label-select-tense'];
-        currentTopicLabel.textContent = t2['label-current-tense'];
-        subtitle.textContent = t2['subtitle-fixed'];
-        updateTenseExplanation();
-    } else {
-        topicLabel.textContent = t2['label-select-technique'];
-        currentTopicLabel.textContent = t2['label-current-technique'];
-        subtitle.textContent = t2['subtitle-fixed'];
-        updateTechniqueExplanation();
-    }
+    // Pronunciation
+    currentThemeData.pronunciationData.forEach((item, index) => {
+        const card = document.createElement('div');
+        card.className = 'subtheme-card';
+        const translatedName = t[item.name] || item.name;
+        card.innerHTML = `<h4>${translatedName}</h4>`;
+        card.addEventListener('click', () => {
+            state.studyType = 'pronunciation';
+            state.currentTenseIndex = index;
+            state.currentSentenceIndex = 0;
+            startPracticeSession(); // Loads sentences and updates display
+            showPracticeScreen();
+        });
+        pronunciationGrid.appendChild(card);
+    });
 }
 
 // Update tense explanation
@@ -686,41 +704,7 @@ function randomSentence() {
 
 // Event listeners
 function attachEventListeners() {
-    themeSelect.addEventListener('change', (e) => {
-        state.currentTheme = e.target.value;
-
-        state.currentTenseIndex = 0;
-        state.currentSentenceIndex = 0;
-        populateTopicSelect(false);
-        loadSentences();
-        updateDisplay();
-        updateSelectionSummary();
-    });
-
-    studyTypeSelect.addEventListener('change', (e) => {
-        state.studyType = e.target.value;
-        state.currentTenseIndex = 0;
-        state.currentSentenceIndex = 0;
-        populateTopicSelect(false);
-        loadSentences();
-        updateDisplay();
-        updateSelectionSummary();
-    });
-
-    tenseSelect.addEventListener('change', (e) => {
-        state.currentTenseIndex = parseInt(e.target.value);
-        state.currentSentenceIndex = 0;
-        if (state.studyType === 'pronunciation') {
-            updateTechniqueExplanation();
-        } else if (state.studyType === 'tenses') {
-            updateTenseExplanation();
-        }
-        loadSentences();
-        updateDisplay();
-        updateSelectionSummary();
-    });
-
-    levelSelect.addEventListener('change', (e) => {
+    practiceLevelSelect.addEventListener('change', (e) => {
         state.currentLevel = e.target.value;
         state.currentSentenceIndex = 0;
         loadSentences();
@@ -728,8 +712,8 @@ function attachEventListeners() {
         updateSelectionSummary();
     });
 
-    startSessionBtn.addEventListener('click', startPracticeSession);
-    backToMenuBtn.addEventListener('click', backToMenu);
+    backToThemesBtn.addEventListener('click', showThemesScreen);
+    backToMenuBtn.addEventListener('click', showSubthemesScreen);
 
     nextBtn.addEventListener('click', nextSentence);
     prevBtn.addEventListener('click', prevSentence);
