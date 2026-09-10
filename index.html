@@ -13,52 +13,18 @@
             <p class="subtitle" id="subtitle">Talk now, fix grammar later. Repetition is your superpower.</p>
         </header>
 
-        <div id="selection-screen">
-            <div class="controls">
-                <div class="control-group">
-                    <label for="theme-select" id="label-theme">Theme:</label>
-                    <select id="theme-select">
-                        <!-- Options populated by JavaScript -->
-                    </select>
-                </div>
+        <button id="lang-toggle-btn" class="lang-toggle-btn" title="Toggle Language / Alternar Idioma">
+            <span id="lang-flag">🇺🇸</span>
+            <span id="lang-code">EN</span>
+        </button>
 
-                <div class="control-group">
-                    <label for="study-type" id="label-study-type">Study Type:</label>
-                    <select id="study-type">
-                        <option value="tenses" data-text-key="grammar-tenses">Grammar Tenses</option>
-                        <option value="pronunciation" data-text-key="pronunciation">Pronunciation</option>
-                    </select>
-                </div>
-
-                <div class="control-group">
-                    <label for="tense-select" id="topic-label">Select Tense:</label>
-                    <select id="tense-select">
-                        <!-- Options populated by JavaScript -->
-                    </select>
-                </div>
-
-                <div class="control-group">
-                    <label for="level-select" id="label-level">Level:</label>
-                    <select id="level-select">
-                        <option value="all" data-text-key="all-levels">All Levels</option>
-                        <option value="easy" data-text-key="easy">Easy</option>
-                        <option value="medium" data-text-key="medium">Medium</option>
-                        <option value="hard" data-text-key="hard">Hard</option>
-                    </select>
-                </div>
+        <div id="themes-screen">
+            <h2 id="themes-header" class="screen-header">Choose a Theme</h2>
+            <div id="themes-grid" class="theme-grid">
+                <!-- Theme cards populated by JS -->
             </div>
 
-            <div class="selection-actions">
-                <button id="start-session-btn" class="start-btn">
-                    <span id="btn-start-text">Start Practice</span>
-                </button>
-                <button id="lang-toggle-btn" class="lang-toggle-btn menu-lang-btn" title="Toggle Language / Alternar Idioma">
-                    <span id="lang-flag">🇺🇸</span>
-                    <span id="lang-code">EN</span>
-                </button>
-            </div>
-
-            <section class="purpose-disclaimer" aria-live="polite">
+            <section class="purpose-disclaimer mt-4" aria-live="polite">
                 <h3 id="purpose-title">Why This App Exists</h3>
                 <p id="purpose-text">
                     This app was designed for massive speaking practice in English. It is not a test,
@@ -72,99 +38,37 @@
                     <span><strong id="stat-unique-words-value">8,280</strong> <span id="stat-unique-words-label">unique words</span></span>
                 </div>
             </section>
+        </div>
 
-            <section class="quick-guide" aria-live="polite">
-                <h3 id="guide-title">What You Have Here</h3>
-                <p id="guide-intro">A practical training app focused on speaking volume and consistency.</p>
+        <div id="subthemes-screen" style="display: none;">
+            <div class="practice-header-actions mb-4">
+                <button id="back-to-themes-btn" class="back-btn"><span id="btn-back-themes-text">← Back to Themes</span></button>
+            </div>
+            <h2 id="current-theme-title" class="screen-header">Theme Name</h2>
 
-                <div class="guide-grid">
-                    <div class="guide-card">
-                        <h4 id="guide-usage-title">🎮 How to Use This Screen</h4>
-                        <ul>
-                            <li id="guide-usage-1">Choose Theme, Study Type, Topic and Level.</li>
-                            <li id="guide-usage-2">Click Start Practice to open the sentence cards.</li>
-                            <li id="guide-usage-3">Use Previous and Next to move through phrases.</li>
-                            <li id="guide-usage-7">Repeat the same sentence several times before moving to the next one. With time, speaking will feel more natural and comfortable.</li>
-                            <li id="guide-usage-4">Use Random to jump to a surprise phrase.</li>
-                            <li id="guide-usage-5">Use EN/PT to switch the instructions language.</li>
-                            <li id="guide-usage-6">Use Back to Menu to return to this screen.</li>
-                        </ul>
-                    </div>
+            <h3 id="grammar-header" class="subtheme-section-title">Grammar Tenses</h3>
+            <div id="grammar-grid" class="subtheme-grid">
+                <!-- Grammar cards populated by JS -->
+            </div>
 
-                    <div class="guide-card">
-                        <h4 id="guide-themes-title">🧭 Themes Available</h4>
-                        <p id="guide-themes-note">Themes cover real social contexts for speaking practice. Content volume may vary by theme.</p>
-                        <ul>
-                            <li id="guide-theme-1">Daily Life - routines, meals, chores, family, shopping</li>
-                            <li id="guide-theme-2">Travel - airport, hotel, transport, tourism, restaurants</li>
-                            <li id="guide-theme-3">Technology - computers, internet, apps, coding, remote work</li>
-                            <li id="guide-theme-4">Work and Career - office, meetings, projects, interviews, networking</li>
-                            <li id="guide-theme-5">Arts and Entertainment - music, movies, theater, museums, festivals</li>
-                            <li id="guide-theme-6">Education and Science - school, university, research, labs, library</li>
-                            <li id="guide-theme-7">Sports - football, basketball, swimming, gym, competitions</li>
-                            <li id="guide-theme-8">Environment and Nature - climate, recycling, conservation, wildlife</li>
-                            <li id="guide-theme-9">Society and Behavior - relationships, hobbies, communication, social media</li>
-                        </ul>
-                    </div>
-
-                    <div class="guide-card">
-                        <h4 id="guide-resources-title">🧰 Resources</h4>
-                        <p id="guide-grammar-title"><strong>Grammar Tenses</strong></p>
-                        <p id="guide-grammar-intro">12 full tenses with 3 difficulty levels:</p>
-                        <ul>
-                            <li id="guide-tense-1">Present Simple</li>
-                            <li id="guide-tense-2">Present Continuous</li>
-                            <li id="guide-tense-3">Present Perfect</li>
-                            <li id="guide-tense-4">Present Perfect Continuous</li>
-                            <li id="guide-tense-5">Past Simple</li>
-                            <li id="guide-tense-6">Past Continuous</li>
-                            <li id="guide-tense-7">Past Perfect</li>
-                            <li id="guide-tense-8">Past Perfect Continuous</li>
-                            <li id="guide-tense-9">Future Simple</li>
-                            <li id="guide-tense-10">Future Continuous</li>
-                            <li id="guide-tense-11">Future Perfect</li>
-                            <li id="guide-tense-12">Future Perfect Continuous</li>
-                        </ul>
-                        <p id="guide-grammar-base">Base structure: Easy / Medium / Hard</p>
-                        <p id="guide-grammar-focus">Focused on oral repetition and fluency building.</p>
-                    </div>
-
-                    <div class="guide-card">
-                        <p id="guide-pron-title"><strong>🗣️ Pronunciation Practice</strong></p>
-                        <p id="guide-pron-intro">11 pronunciation techniques with 3 difficulty levels:</p>
-                        <ul>
-                            <li id="guide-pron-1">Word Stress Patterns - emphasis practice (BREAKfast, toMOrrow)</li>
-                            <li id="guide-pron-2">Linking Sounds - connected speech (check_in, wake_up)</li>
-                            <li id="guide-pron-3">Contractions Practice - contractions with IPA (I'm -> /aɪm/)</li>
-                            <li id="guide-pron-4">Silent Letters - highlighted silent letters (k(nife), w(rite))</li>
-                            <li id="guide-pron-5">Over-Articulation - exaggerated articulation for muscle training</li>
-                            <li id="guide-pron-6">Tongue Twisters - fluency drills</li>
-                            <li id="guide-pron-7">Minimal Pairs Training - similar sounds (ship/sheep) with IPA</li>
-                            <li id="guide-pron-8">Chunking (Natural Blocks) - natural speech blocks</li>
-                            <li id="guide-pron-9">Stress and Intonation - key word emphasis (bold markers)</li>
-                            <li id="guide-pron-10">Thought Groups - idea groups with pauses (/)</li>
-                            <li id="guide-pron-11">Reading Practice - reading flow with pause marks</li>
-                        </ul>
-                        <p id="guide-pron-base">Base structure: Easy / Medium / Hard</p>
-                        <p id="guide-pron-focus">Focused on massive speaking practice, rhythm and clarity.</p>
-                    </div>
-
-                    <div class="guide-card">
-                        <h4 id="guide-bilingual-title">🌐 Bilingual Interface EN/PT</h4>
-                        <ul>
-                            <li id="guide-bilingual-1">EN/PT button switches language instantly.</li>
-                            <li id="guide-bilingual-2">Translates labels, buttons, themes, tenses and techniques.</li>
-                            <li id="guide-bilingual-3">Keeps your current selections after switching.</li>
-                            <li id="guide-bilingual-4">Interface adapted for Brazilian context.</li>
-                        </ul>
-                    </div>
-                </div>
-            </section>
+            <h3 id="pronunciation-header" class="subtheme-section-title mt-4">Pronunciation</h3>
+            <div id="pronunciation-grid" class="subtheme-grid">
+                <!-- Pronunciation cards populated by JS -->
+            </div>
         </div>
 
         <div id="practice-screen" style="display: none;">
-            <div class="practice-header-actions">
-                <button id="back-to-menu-btn" class="back-btn"><span id="btn-back-text">← Back to Menu</span></button>
+            <div class="practice-header-actions" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <button id="back-to-menu-btn" class="back-btn"><span id="btn-back-text">← Back to Subthemes</span></button>
+                <div class="level-selector-inline" style="display: flex; align-items: center; gap: 10px;">
+                    <label for="practice-level-select" id="label-level" style="font-weight: 600; color: #475569; font-size: 0.9em;">Level:</label>
+                    <select id="practice-level-select" style="width: auto; padding: 8px 32px 8px 12px; font-size: 0.9em; min-width: 140px;">
+                        <option value="all" data-text-key="all-levels">All Levels</option>
+                        <option value="easy" data-text-key="easy">Easy</option>
+                        <option value="medium" data-text-key="medium">Medium</option>
+                        <option value="hard" data-text-key="hard">Hard</option>
+                    </select>
+                </div>
             </div>
 
             <p id="selection-summary" class="selection-summary"></p>
